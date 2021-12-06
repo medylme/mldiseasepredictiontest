@@ -22,9 +22,9 @@ y = data.iloc[:, -1]
 final_svm_model = SVC()
 final_nb_model = GaussianNB()
 final_rf_model = RandomForestClassifier(random_state=18)
-final_svm_model.fit(X, y)
-final_nb_model.fit(X, y)
-final_rf_model.fit(X, y)
+final_svm_model.fit(X.values, y)
+final_nb_model.fit(X.values, y)
+final_rf_model.fit(X.values, y)
 
 # ----------------------------------------------------------------
 
@@ -46,32 +46,43 @@ data_dict = {
 # Input: string containing symptoms separated by commmas
 # Output: Generated predictions by models
 def predictDisease(symptoms):
-	symptoms = symptoms.lower().split(",")
+    symptoms = symptoms.title().split(",")
 
-	# creating input data for the models
-	input_data = [0] * len(data_dict["symptom_index"])
-	for symptom in symptoms:
-		index = data_dict["symptom_index"][symptom]
-		input_data[index] = 1
+    # creating input data for the models
+    input_data = [0] * len(data_dict["symptom_index"])
+    for symptom in symptoms:
+        index = data_dict["symptom_index"][symptom]
+        input_data[index] = 1
 
-	# reshaping the input data and converting it
-	# into suitable format for model predictions
-	input_data = np.array(input_data).reshape(1,-1)
+    # reshaping the input data and converting it
+    # into suitable format for model predictions
+    input_data = np.array(input_data).reshape(1,-1)
 
-	# generating individual outputs
-	rf_prediction = data_dict["predictions_classes"][final_rf_model.predict(input_data)[0]]
-	nb_prediction = data_dict["predictions_classes"][final_nb_model.predict(input_data)[0]]
-	svm_prediction = data_dict["predictions_classes"][final_svm_model.predict(input_data)[0]]
+    # generating individual outputs
+    rf_prediction = data_dict["predictions_classes"][final_rf_model.predict(input_data)[0]]
+    nb_prediction = data_dict["predictions_classes"][final_nb_model.predict(input_data)[0]]
+    svm_prediction = data_dict["predictions_classes"][final_svm_model.predict(input_data)[0]]
 
-	# making final prediction by taking mode of all predictions
-	final_prediction = mode([rf_prediction, nb_prediction, svm_prediction])[0][0]
-	predictions = {
-		"rf_model_prediction": rf_prediction,
-		"naive_bayes_prediction": nb_prediction,
-		"svm_model_prediction": nb_prediction,
-		"final_prediction":final_prediction
-	}
-	return predictions
+    # making final prediction by taking mode of all predictions
+    final_prediction = mode([rf_prediction, nb_prediction, svm_prediction])[0][0]
+    predictions = {
+        "Prediction #1 (SVC)": rf_prediction,
+        "Prediction #2 (Gaussian NB)": nb_prediction,
+        "Prediction #3 (Random Forest)": nb_prediction,
+        "Final Prediction":final_prediction
+    }
+
+    return predictions
 
 # Testing the function
-print(predictDisease("Itching,Skin Rash,Nodal Skin Eruptions,Dischromic Patches"))
+print("==============================================================================================================")
+print("DISEASE PREDICTION")
+print("Input symptoms seperated by a comma \ni.e. 'Itching,Skin Rash,Nodal Skin Eruptions,Dischromic Patches':")
+print("For a list of symptoms, see README.md")
+print("==============================================================================================================")
+input = input("-> ")
+output = predictDisease(input)
+
+print('\n')
+print('\n'.join("{}: {}".format(k, v) for k, v in output.items()))
+print("==============================================================================================================")
