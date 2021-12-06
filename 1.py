@@ -19,7 +19,7 @@ data = pd.read_csv(DATA_PATH).dropna(axis = 1)
 # Encoding the target value into numerical
 # value using LabelEncoder
 encoder = LabelEncoder()
-data["prognosis"] = encoder.fit_transform(data["prognosis"])
+#data["prognosis"] = encoder.fit_transform(data["prognosis"])
 
 # Checking whether the dataset is balanced or not
 disease_counts = data["prognosis"].value_counts()
