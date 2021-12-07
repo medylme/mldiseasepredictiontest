@@ -92,3 +92,18 @@ print("=========================================================================
 
 input = input("-> ")
 
+try:
+	if ", " in input:
+		raise IndentationError()
+	output = predictDisease(input)
+	print(color.RED + '\n'.join("{}: {}".format(k, v) for k, v in output.items()))
+except KeyError:
+	print("Error: Please input only valid symptoms.")
+except IndentationError:
+	print("Error: Please seperate the symptoms by just a comma.")
+except KeyboardInterrupt:
+    print("You have closed the program.")
+except:
+  	print("Error: Something else went wrong.")
+finally:
+	print(color.END +"==============================================================================================================")
