@@ -11,6 +11,19 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 
+# Class for fancy colors
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 # Reading the training dataset
 TRAININGDATA_PATH = "dataset/Training.csv"
 data = pd.read_csv(TRAININGDATA_PATH).dropna(axis = 1)
@@ -71,15 +84,11 @@ def predictDisease(symptoms):
     }
     return predictions
 
-
 print("==============================================================================================================")
-print("DISEASE PREDICTION")
-print("Input symptoms seperated by a comma i.e. 'Itching,Skin Rash,Nodal Skin Eruptions,Dischromic Patches'")
+print(color.BOLD + "DISEASE PREDICTION\n" + color.END)
+print("Input symptoms seperated by a comma i.e. 'Itching,Skin Rash,Dischromic Patches'")
 print("For a list of symptoms, see README.md")
 print("==============================================================================================================")
-input = input("-> ")
-output = predictDisease(input)
 
-print('\n')
-print('\n'.join("{}: {}".format(k, v) for k, v in output.items()))
-print("==============================================================================================================")
+input = input("-> ")
+
