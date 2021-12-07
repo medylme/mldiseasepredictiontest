@@ -1,3 +1,20 @@
+# Loading Animation
+import itertools
+import threading
+import time
+import sys
+loading = True
+def animate():
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+        if not loading:
+            break
+        sys.stdout.write('\rPlease wait... ' + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+t = threading.Thread(target=animate)
+t.start()
+
 # Imports
 import os
 import numpy as np
@@ -25,14 +42,12 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-# Clearing the console
+# Function for clearing the console
 def clearConsole():
     command = 'clear'
     if os.name in ('nt', 'dos'):
         command = 'cls'
     os.system(command)
-
-clearConsole()
 
 # Reading the training dataset
 TRAININGDATA_PATH = "dataset/Training.csv"
@@ -94,6 +109,8 @@ def predictDisease(symptoms):
     }
     return predictions
 
+loading = False
+clearConsole()
 print("==============================================================================================================")
 print(color.BOLD + "DISEASE PREDICTION\n" + color.END)
 print("Input symptoms seperated by a comma i.e. 'Itching,Skin Rash,Dischromic Patches'")
