@@ -1,4 +1,5 @@
 # Imports
+import os
 import numpy as np
 import pandas as pd
 from scipy.stats import mode
@@ -23,6 +24,15 @@ class color:
    BOLD = '\033[1m'
    UNDERLINE = '\033[4m'
    END = '\033[0m'
+
+# Clearing the console
+def clearConsole():
+    command = 'clear'
+    if os.name in ('nt', 'dos'):
+        command = 'cls'
+    os.system(command)
+
+clearConsole()
 
 # Reading the training dataset
 TRAININGDATA_PATH = "dataset/Training.csv"
